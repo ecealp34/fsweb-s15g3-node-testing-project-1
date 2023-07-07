@@ -11,12 +11,27 @@ describe('[Görev 1] nesneyiTrimle', () => {
 })
 
 describe('[Görev 2] verileniTrimle', () => {
-  // test('[3] verilen propu trimliyor', () => {})
-  // test('[4] verilen dışındaki proplar trimlenmeden döndürülüyor', () => {})
+  let actual;
+  let prop;
+  const input = { foo: '  foo ', bar: 'bar ', baz: ' baz' }
+  beforeEach(() => {
+    prop = "foo"
+    actual = utils.verileniTrimle(input, prop)
+  })
+  test('[3] verilen propu trimliyor', () => {
+      expect(actual[prop]).toEqual(actual[prop].trim())
+  })
+  test('[4] verilen dışındaki proplar trimlenmeden döndürülüyor', () => {
+      expect(actual['bar']).toEqual(input['bar'])
+  })
 })
 
 describe('[Görev 3] enBuyukTamsayiyiBul', () => {
-  // test('[5] bir dizi nesne içindeki en büyük tamsayiyi döndürüyor { tamsayi: 2 }', () => {})
+  const tamsayilar = [{ tamsayi: 1 }, { tamsayi: 3 }, { tamsayi: 2 }];
+   test('[5] bir dizi nesne içindeki en büyük tamsayiyi döndürüyor { tamsayi: 2 }', () => {
+    const max = utils.enBuyukTamsayiyiBul(tamsayilar)
+    expect(max).toBe(3);
+   })
 })
 
 describe('[Görev 4] Sayici', () => {
@@ -24,9 +39,22 @@ describe('[Görev 4] Sayici', () => {
   beforeEach(() => {
     sayici = new utils.Sayici(3) // her test yeni bir sayı ile başlatılıyor
   })
-  // test('[6] sayici.asagiSay ilk çağırılışında başlangıç sayışını yapıyor', () => {})
-  // test('[7] sayici.asagiSay İKİNCİ çağırılışında başlangıç eksi 1 sayıyor', () => {})
-  // test('[8] sayıcı sonunda sıfıra ulaşır ama daha aşağı saymaz', () => {})
+  test('[6] sayici.asagiSay ilk çağırılışında başlangıç sayışını yapıyor', () => {
+    let sayi = sayici.asagiSay()
+    expect(sayi).toBe(3)
+  })
+   test('[7] sayici.asagiSay İKİNCİ çağırılışında başlangıç eksi 1 sayıyor', () => {
+    let sayi = sayici.asagiSay()
+    sayi = sayici.asagiSay()
+    expect(sayi).toBe(2)
+   })
+   test('[8] sayıcı sonunda sıfıra ulaşır ama daha aşağı saymaz', () => {
+    let sayi = sayici.asagiSay()
+    for(let i = 0; i < 4; i++) {
+      sayi = sayici.asagiSay()
+    }
+    expect(sayi).toBe(0)
+   })
 })
 
 describe('[Görev 5] Mevsimler', () => {
@@ -34,12 +62,42 @@ describe('[Görev 5] Mevsimler', () => {
   beforeEach(() => {
     mevsimler = new utils.Mevsimler() // her test yeni bir mevsimle başlar
   })
-  // test('[9] mevsimler.sonraki İLK çağırılışında "yaz" döndürüyor', () => {})
-  // test('[10] mevsimler.sonraki İKİNCİ çağırılışında "sonbahar" döndürüyor', () => {})
-  // test('[11] mevsimler.sonraki ÜÇÜNCÜ çağırılışında "kış" döndürüyor', () => {})
-  // test('[12] mevsimler.sonraki DÖRDÜNCÜ çağırılışında "ilkbahar" döndürüyor', () => {})
-  // test('[13] mevsimler.sonraki BEŞİNCİ çağırılışında "yaz" döndürüyor', () => {})
-  // test('[14] mevsimler.sonraki KIRKINCI çağırılışında "ilkbahar" döndürüyor', () => {})
+   test('[9] mevsimler.sonraki İLK çağırılışında "yaz" döndürüyor', () => {
+    expect(mevsimler.sonraki()).toBe('yaz')
+   })
+   test('[10] mevsimler.sonraki İKİNCİ çağırılışında "sonbahar" döndürüyor', () => {
+    let mevsim = mevsimler.sonraki()
+    mevsim = mevsimler.sonraki()
+    expect(mevsim).toBe('sonbahar')
+   })
+   test('[11] mevsimler.sonraki ÜÇÜNCÜ çağırılışında "kış" döndürüyor', () => {
+    let mevsim = mevsimler.sonraki()
+    for(let i = 0; i < 2; i++) {
+      mevsim = mevsimler.sonraki()
+    }
+    expect(mevsim).toBe('kış')
+   })
+   test('[12] mevsimler.sonraki DÖRDÜNCÜ çağırılışında "ilkbahar" döndürüyor', () => {
+    let mevsim = mevsimler.sonraki()
+    for(let i = 0; i < 3; i++) {
+      mevsim = mevsimler.sonraki()
+    }
+    expect(mevsim).toBe('ilkbahar')
+   })
+   test('[13] mevsimler.sonraki BEŞİNCİ çağırılışında "yaz" döndürüyor', () => {
+    let mevsim = mevsimler.sonraki()
+    for(let i = 0; i < 4; i++) {
+      mevsim = mevsimler.sonraki()
+    }
+    expect(mevsim).toBe('yaz')
+   })
+   test('[14] mevsimler.sonraki KIRKINCI çağırılışında "ilkbahar" döndürüyor', () => {
+    let mevsim = mevsimler.sonraki()
+    for(let i = 0; i < 39; i++) {
+      mevsim = mevsimler.sonraki()
+    }
+    expect(mevsim).toBe('ilkbahar')
+   })
 })
 
 describe('[Görev 6] Araba', () => {
@@ -47,13 +105,53 @@ describe('[Görev 6] Araba', () => {
   beforeEach(() => {
     focus = new utils.Araba('focus', 20, 30) // her test yeni bir araba oluşturur
   })
-  // test('[15] arabayı sürünce güncellenmiş odometer döndürüyor', () => {})
-  // test('[16] arabayı sürmek benzin tüketiyor', () => {})
-  // test('[17] benzinalma arabayı sürmeye izin veriyor', () => {})
-  // test('[18] dolu depoya benzin alma etki etmiyor', () => {})
+   test('[15] arabayı sürünce güncellenmiş odometer döndürüyor', () => {
+     let totalNumber = focus.sur(100)
+     totalNumber = focus.sur(100)
+     totalNumber = focus.sur(100)
+     totalNumber = focus.sur(200)
+     totalNumber = focus.sur(200)
+     expect(totalNumber).toBe(600)
+   })
+   test('[16] arabayı sürmek benzin tüketiyor', () => {
+    let totalNumber = focus.sur(100)
+    totalNumber = focus.sur(100)
+    totalNumber = focus.sur(100)
+    totalNumber = focus.sur(200)
+    totalNumber = focus.sur(200)
+    expect(focus.depo).toBe(0)
+   })
+   test('[17] benzinalma arabayı sürmeye izin veriyor', () => {
+    let totalNumber = focus.sur(100)
+    totalNumber = focus.sur(100)
+    totalNumber = focus.sur(100)
+    totalNumber = focus.sur(200)
+    totalNumber = focus.sur(200)
+    focus.benzinal(10)
+    totalNumber = focus.sur(200)
+    totalNumber = focus.sur(200)
+    expect(totalNumber).toBe(900)
+   })
+   test('[18] dolu depoya benzin alma etki etmiyor', () => {
+    let totalNumber = focus.sur(100)
+    totalNumber = focus.sur(100)
+    totalNumber = focus.sur(100)
+    totalNumber = focus.sur(200)
+    totalNumber = focus.sur(200)
+    focus.benzinal(20)
+    expect(totalNumber).toBe(600)
+    focus.benzinal(20)
+    expect(totalNumber).toBe(600)
+   })
 })
 
 describe('[Görev 7] asenkronCiftSayi', () => {
-  // test('[19] bir çift sayı verilirse true çözümlüyor', () => {})
-  // test('[20] tek sayı verilirse false çözümlüyor', () => {})
+   test('[19] bir çift sayı verilirse true çözümlüyor', async () => {
+     let isCift = await utils.asenkronCiftSayi(2)
+     expect(isCift).toBe(true)
+   })
+   test('[20] tek sayı verilirse false çözümlüyor', async () => {
+    let isCift = await utils.asenkronCiftSayi(1)
+    expect(isCift).toBe(false)
+   })
 })

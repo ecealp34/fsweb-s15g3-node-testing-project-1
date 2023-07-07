@@ -7,7 +7,9 @@
  * nesneyiTrimle({ isim: '  jane  ' }) // yeni bir nesne döndürür { name: 'jane' }
  */
 function nesneyiTrimle(obj) {
-  // ✨ kodlar buraya
+  // Object.keys(obj).forEach(element => obj[element] = obj[element].trim());
+   Object.keys(obj).map(element => obj[element] = obj[element].trim());
+  return obj
 }
 
 /**
@@ -19,7 +21,8 @@ function nesneyiTrimle(obj) {
  * verileniTrimle({ isim: '  jane  ' , yas: ' 34 '}, 'isim') // şunu döndürür { isim: 'jane', yas: ' 34 '}
  */
 function verileniTrimle(obj, prop) {
-  // ✨ kodlar buraya
+  obj[prop] = obj[prop].trim()
+  return obj
 }
 
 /**
@@ -31,8 +34,18 @@ function verileniTrimle(obj, prop) {
  * enBuyukTamsayiyiBul([{ tamsayi: 1 }, { tamsayi: 3 }, { tamsayi: 2 }]) // 3 döndürür
  */
 function enBuyukTamsayiyiBul(tamsayilar) {
-  // ✨ kodlar buraya
-}
+  
+  let max = 0;
+  tamsayilar.map(element => {
+    if(element.tamsayi > max) {
+      max = element.tamsayi
+    }
+  })
+   return max;
+   
+  }
+   
+
 
 function Sayici(ilkSayi) {
   /**
@@ -41,7 +54,8 @@ function Sayici(ilkSayi) {
    */
   
   // ✨ gerekli propları ekleyin
-  
+  this.initial = ilkSayi
+  this.first = true
 
   /**
    * [Görev 4B] asagiSay metodu sıfıra doğru sayar
@@ -56,7 +70,18 @@ function Sayici(ilkSayi) {
    * sayac.asagiSay() // 0 döndürür
    */
   this.asagiSay = () => {
-    // ✨ kodlar buraya
+    if(this.first) {
+      this.first = false
+      return this.initial
+    } else {
+      if(this.initial <= 0) {
+        return 0 
+      } else {
+        this.initial = this.initial - 1
+        return this.initial
+    
+      }
+    }
   }
 }
 
@@ -66,7 +91,8 @@ function Mevsimler() {
    */
 
   // ✨ gerekli propları ekleyin
-
+     this.mevsimler = ['yaz', 'sonbahar', 'kış', 'ilkbahar']
+     this.count = 0
   /**
    * [Görev 5B] sonraki metodu bir sonraki mevsimi gösterir
    * @returns {string} - bir sonraki mevsim "yaz" olarak yüklenir
@@ -80,11 +106,20 @@ function Mevsimler() {
    * mevsimler.sonraki() // "yaz" döndürür
    */
   this.sonraki = () => {
-    // ✨ kodlar buraya
+    let mevsim = ""
+    if(this.count > 3) {
+      this.count = this.count % 4;
+      mevsim = this.mevsimler[this.count]
+    } else {
+      mevsim = this.mevsimler[this.count]
+    }
+    this.count = this.count + 1
+    return mevsim;
   }
 }
 
-function Araba(/*kodlar buraya */) {
+
+function Araba(name, depoBenzin, kml) {
   /**
    * [Görev 6A] Araba 3 argüman alarak bir araba nesnesi oluşturur
    * @param {string} isim - arabanın ismi
@@ -95,7 +130,9 @@ function Araba(/*kodlar buraya */) {
     this.odometer = 0 // araba 0 kilometrede yüklenecek
     this.depo = depoBenzin // araba full depoyla yüklenecek
     // ✨ gerekli propları ekleyin
-
+    this.toplamYol = 0
+    this.km = kml
+    this.name = name
   
 
   /**
@@ -112,7 +149,18 @@ function Araba(/*kodlar buraya */) {
    * focus.sur(200) // 600 döndürür (100 km sonra benzin bitti)
    */
   this.sur = (gidilecekyol) => {
-    // ✨ kodlar buraya
+    
+    let yolDepo = this.km * this.depo
+    if(gidilecekyol > yolDepo) {
+      this.toplamYol += yolDepo
+      this.depo = this.depo - (yolDepo / this.km)
+    } else {
+      this.toplamYol += gidilecekyol
+      this.depo = this.depo - (gidilecekyol / this.km)
+    }
+
+    return this.toplamYol
+
   }
 
   /**
@@ -127,7 +175,12 @@ function Araba(/*kodlar buraya */) {
    * focus.benzinal(99) // 600 döndürür (depo yalnızca 20 litre alabiliyor)
    */
   this.benzinal = (litre) => {
-    // ✨ kodlar buraya
+    this.depo += litre
+    if(this.depo < depoBenzin) {
+      this.depo * this.km
+    } else {
+      return this.depo = depoBenzin
+    }
   }
 }
 
@@ -145,7 +198,11 @@ function Araba(/*kodlar buraya */) {
  * })
  */
 function asenkronCiftSayi(sayi) {
-  // ✨ implement
+   if(sayi % 2 === 0) {
+    return true
+   } else {
+    return false
+   }
 }
 
 module.exports = {
